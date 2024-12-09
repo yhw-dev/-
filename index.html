@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <title>서울시 동상 지도</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+        <style>
+            html, body, #mapid{
+                height: 100%;
+                margin: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id = 'mapid'>
+        </div>
+        <script>
+            var map = L.map('mapid').setView([37.5378, 127.0253], 11);
+            var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+                attribution:'&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> Contributors'
+            }).addTo(map);
+            var GoogleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+                maxZoom: 20,
+                subdomains:['mt0','mt1','mt2','mt3']
+            })
+            var GoogleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+                maxZoom: 20,
+                subdomains:['mt0','mt1','mt2','mt3']
+            })
+            var GoogleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',{
+                maxZoom: 20,
+                subdomains:['mt0','mt1','mt2','mt3']
+            })
+            var GoogleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+                maxZoom: 20,
+                subdomains:['mt0','mt1','mt2','mt3']
+            })
+            var Stamen_Watercolor = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
+                attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                subdomains: 'abcd',
+                minZoom: 1,
+                maxZoom: 16,
+                ext: 'jpg'
+            });
+
+
+            var baseMaps = {
+                "GoogleStreetMap": GoogleStreets,
+                "GoogleSatelliteMap":GoogleSat,
+                "GoogleTerrain":GoogleTerrain,
+                "GoogleHybrid":GoogleHybrid,
+                "Watercolor":Stamen_Watercolor,
+                "OpenStreetMap":osm
+            };
+           
+            L.control.layers(baseMaps).addTo(map);
+ 
+            var myIcon = L.Icon.extend({
+                options: {
+                shadowUrl: 'https://dh.aks.ac.kr/~jisun/leafimage/myicon_shadow.png',
+                iconSize:     [46, 62],
+                shadowSize:   [44, 22],
+                iconAnchor:   [23, 62],
+                shadowAnchor: [4, 22],
+                popupAnchor:  [0, -62]
+                }
+            });
+
+
+            var statueIcon = new myIcon({iconUrl: 'https://dh.aks.ac.kr/~jisun/edu/images/5/50/Original_statue.png'});
+                L.icon = function (options) {
+                    return new L.Icon(options);
+                };
+ 
+            var part_1 = L.layerGroup();
+            var part_2 = L.layerGroup();
+            var part_3 = L.layerGroup();  
+            var part_4 = L.layerGroup();  
+            var part_5 = L.layerGroup();  
+            var part_6 = L.layerGroup();  
+            var part_7 = L.layerGroup();
+           
+            map.addLayer(part_1)
+            map.addLayer(part_2)
+            map.addLayer(part_3)
+            map.addLayer(part_4)
+            map.addLayer(part_5)
+            map.addLayer(part_6)
+            map.addLayer(part_7)
+
+            var overlays = {
+                "건립연도:1960년대": part_1,
+                "건립연도:1970년대": part_2,
+                "건립연도:1980년대": part_3,
+                "건립연도:1990년대": part_4,
+                "건립연도:2000년대": part_5,
+                "건립연도:2010년대": part_6,
+                "건립연도:2020년대": part_7
+            };
+
+            var ctr_mapLayers = L.control.layers(null, overlays, {collapsed:true, position:'bottomleft'}).addTo(map);
+
+            var geodata =[
+            {"type": "Feature", "properties": {"name": "강감찬_장군상", "year": "1997", "refurl": "https://www.betanews.net/article/472921;https://www.munhwa.com/news/view.html?no=19971014204", "category": "건립연도:1990년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.9611, 37.477]}},
+{"type": "Feature", "properties": {"name": "고_미국해군대위_서위렴_동상", "year": "2010", "refurl": "https://www.konas.net/article/article.asp?idx=57854, https://terms.naver.com/entry.naver?docId=3335439&cid=42856&categoryId=42856 ", "category": "건립연도:2010년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.923505, 37.605053]}},
+{"type": "Feature", "properties": {"name": "고당_조만식_선생_동상", "year": "1976", "refurl": "https://m.tripinfo.co.kr/info.html?content_type_id=12&content_id=1826457&navi=trip_rank-gyeonggii&rd=/rd/m/info/trip", "category": "건립연도:1970년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.0769, 37.55]}},
+{"type": "Feature", "properties": {"name": "기마화랑상", "year": "2016", "refurl": " https://m.ajunews.com/view/20161121162035769#_PA , https://www.news1.kr/photos/2248235 https://nbs.go.kr/caster/userCaster/userCaster/view.do?bbsId=BS_011&nttId=7057&menuNo=700030&pageIndex=1&snsCd=", "category": "건립연도:2010년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.090745, 37.62298]}},
+{"type": "Feature", "properties": {"name": "김용환_지사상", "year": "1970", "refurl": "https://news.seoul.go.kr/culture/archives/76277", "category": "건립연도:1970년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.99657, 37.551172]}},
+{"type": "Feature", "properties": {"name": "김유신_장군상", "year": "1969", "refurl": "https://www.junggu.seoul.kr/tour/content.do?cmsid=15027&contentId=3522", "category": "건립연도:1960년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.978187, 37.555854]}},
+{"type": "Feature", "properties": {"name": "나들이", "year": "2022", "refurl": "https://mediahub.seoul.go.kr/archives/2006534", "category": "건립연도:2020년대", "gender": "none"}, "geometry": {"type": "Point", "coordinates": [127.024492, 37.419065]}},
+{"type": "Feature", "properties": {"name": "남강_이승훈_선생상", "year": "1987", "refurl": "https://access.visitkorea.or.kr/ms/detail.do?cotId=47b8d380-4369-4c3d-abf6-4b10948037e3", "category": "건립연도:1980년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.076342, 37.548863]}},
+{"type": "Feature", "properties": {"name": "노원_평화의_소녀상", "year": "2015", "refurl": "https://ko.wikipedia.org/wiki/%ED%8F%89%ED%99%94%EC%9D%98_%EC%86%8C%EB%85%80%EC%83%81, https://www.khan.co.kr/local/Seoul/article/201508240957061 , https://www.hankyung.com/article/2017082298421 공식 정보를 찾을 수 없어 뉴스기사를 참고하였습니다.", "category": "건립연도:2010년대", "gender": "female"}, "geometry": {"type": "Point", "coordinates": [127.056992, 37.644591]}},
+{"type": "Feature", "properties": {"name": "다산_정약용_선생상", "year": "1970", "refurl": "https://m.blog.naver.com/akebosi/222741670056", "category": "건립연도:1970년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.981158, 37.552313]}},
+{"type": "Feature", "properties": {"name": "단재_신채호_선생상", "year": "1988", "refurl": "https://m.blog.naver.com/hukim07/221765462954", "category": "건립연도:1980년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.01703, 37.427504]}},
+{"type": "Feature", "properties": {"name": "동작_평화의_소녀상", "year": "2016", "refurl": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0002485827", "category": "건립연도:2010년대", "gender": "female"}, "geometry": {"type": "Point", "coordinates": [126.963756, 37.508511]}},
+{"type": "Feature", "properties": {"name": "류관순상(어린이대공원)", "year": "1973", "refurl": "http://mfis.mpva.go.kr/memorial/movementView.do?gubunCode=DR&sid=1565&pageIndex=1&searFacilgubun=&searTopicsort=&searAddr_sigun=&searMpvabranch=&searVR=&searGbn=tit&searTxt=", "category": "건립연도:1970년대", "gender": "female"}, "geometry": {"type": "Point", "coordinates": [127.079154, 37.549766]}},
+{"type": "Feature", "properties": {"name": "류관순상(장충동)", "year": "1970", "refurl": "https://m.blog.naver.com/lyj5760/221932884797", "category": "건립연도:1970년대", "gender": "female"}, "geometry": {"type": "Point", "coordinates": [127.00326, 37.554998]}},
+{"type": "Feature", "properties": {"name": "매헌_윤봉길_의사상", "year": "1992", "refurl": "http://www.yunbonggil.or.kr/", "category": "건립연도:1990년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.0386, 37.4705]}},
+{"type": "Feature", "properties": {"name": "박연_동상", "year": "1990", "refurl": "https://www.ilyoseoul.co.kr/news/articlePrint.html?idxno=446045", "category": "건립연도:1990년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.0789, 37.5483]}},
+{"type": "Feature", "properties": {"name": "방정환_선생상", "year": "1987", "refurl": "https://blog.naver.com/hukim07/220164307711", "category": "건립연도:1980년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.080605, 37.549387]}},
+{"type": "Feature", "properties": {"name": "백마고지_삼용사의_상", "year": "1973", "refurl": "https://m.blog.naver.com/mpvalove/222337324956;https://mediahub.seoul.go.kr/archives/2007318", "category": "건립연도:1970년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.085312, 37.54674]}},
+{"type": "Feature", "properties": {"name": "백범_김구_선생상", "year": "1969", "refurl": "https://terms.naver.com/entry.naver?docId=1999785&cid=42856&categoryId=42856", "category": "건립연도:1960년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.979824, 37.555153]}},
+{"type": "Feature", "properties": {"name": "삼족오동상", "year": "2017", "refurl": "https://www.gwangjin.com/20054;https://www.sgilbo.kr/news/articleView.html?idxno=15470", "category": "건립연도:2010년대", "gender": "none"}, "geometry": {"type": "Point", "coordinates": [127.099993, 37.551886]}},
+{"type": "Feature", "properties": {"name": "서울_일본군_위안부_피해자_기림비", "year": "2019", "refurl": "https://www.khan.co.kr/local/Seoul/article/201912192045005;https://koya-culture.com/news/article.html?no=121505;https://www.newspim.com/news/view/20190812000083;https://www.google.com/maps/@/data=!3m8!1e2!3m6!1sAF1QipN9mxbbIw6BHCbSM6SbtdiGUfkVB-2G6dlzrjeG!2e10!3e12!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipN9mxbbIw6BHCbSM6SbtdiGUfkVB-2G6dlzrjeG%3Dw150-h150-k-no-p!7i2368!8i4208?entry=ttu&g_ep=EgoyMDI0MTExMy4xIKXMDSoASAFQAw%3D%3D ", "category": "건립연도:2010년대", "gender": "female"}, "geometry": {"type": "Point", "coordinates": [126.981577, 37.554321]}},
+{"type": "Feature", "properties": {"name": "성재_이시영_선생상", "year": "1986", "refurl": "https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=97980103-2ea2-41ab-856a-70b126959b34", "category": "건립연도:1980년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.979255, 37.555386]}},
+{"type": "Feature", "properties": {"name": "세종대왕_동상", "year": "2009", "refurl": "https://www.hani.co.kr/arti/society/society_general/380324.html", "category": "건립연도:2000년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.9768, 37.5728]}},
+{"type": "Feature", "properties": {"name": "세종대왕상(여의도공원)", "year": "1999", "refurl": "https://opengov.seoul.go.kr/mediahub/23854491", "category": "건립연도:1990년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.924762, 37.527017]}},
+{"type": "Feature", "properties": {"name": "손기정_두상", "year": "1990", "refurl": "http://www.sonkeechung.com/sonkeechung/bbs/BMSR00011/view.do?boardId=391&menuNo=1000036", "category": "건립연도:1990년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.9679, 37.5546]}},
+{"type": "Feature", "properties": {"name": "송재_서재필_선생상", "year": "1990", "refurl": "https://www.seoul.co.kr/news/1990/04/08/19900408002006", "category": "건립연도:1990년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.9572, 37.5704]}},
+{"type": "Feature", "properties": {"name": "송진우선생상", "year": "1983", "refurl": "https://kieury.tistory.com/11305740", "category": "건립연도:1980년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.078792, 37.550828]}},
+{"type": "Feature", "properties": {"name": "순국열사_김마리아_선생상", "year": "1989", "refurl": "https://blog.naver.com/hukim07/50073110889", "category": "건립연도:1980년대", "gender": "female"}, "geometry": {"type": "Point", "coordinates": [126.9196887, 37.4934501]}},
+{"type": "Feature", "properties": {"name": "안중근_의사상", "year": "2010", "refurl": "https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=0349084f-b9dc-45de-aff2-ef3f36c1d0ba , https://brunch.co.kr/@dd04e4be8aa7422/23 (지역간 다양한 안중근의사동상) , https://m.blog.naver.com/011gilbut/220644685331", "category": "건립연도:2010년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.980166, 37.553024]}},
+{"type": "Feature", "properties": {"name": "어느청년노동자상", "year": "2020", "refurl": "https://www.taeil.org/community/detail?id=406&board_type=7", "category": "건립연도:2020년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.98931, 37.568373]}},
+{"type": "Feature", "properties": {"name": "온달장군_평강공주상", "year": "2002", "refurl": "https://www.donga.com/news/Society/article/all/20130114/52276235/1", "category": "건립연도:2000년대", "gender": "none"}, "geometry": {"type": "Point", "coordinates": [127.100762, 37.551875]}},
+{"type": "Feature", "properties": {"name": "유관순열사_동상", "year": "2021", "refurl": "https://www.donga.com/news/Society/article/all/20200228/99916641/1;http://www.yugwansun.kr/bbs/board.php?bo_table=menu5_1&wr_id=204&page=4 ", "category": "건립연도:2020년대", "gender": "female"}, "geometry": {"type": "Point", "coordinates": [126.95621, 37.574193]}},
+{"type": "Feature", "properties": {"name": "유석_조병옥_선생상", "year": "2003", "refurl": "https://yka.or.kr/html/alim/notice.asp?skey=&sword=&category=&size=10&page=191&no=119", "category": "건립연도:2000년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.016839, 37.430235]}},
+{"type": "Feature", "properties": {"name": "유정_사명대사상", "year": "1968", "refurl": "https://www.doopedia.co.kr/photobox/comm/community.do?_method=view&GAL_IDX=130709000877519", "category": "건립연도:1960년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.003615, 37.557512]}},
+{"type": "Feature", "properties": {"name": "윤관동상", "year": "2019", "refurl": "https://www.mk.co.kr/news/economy/435757, http://www.i-bello.co.kr/sub03/sub03_01.html?ptype=view&code=out&idx=5451", "category": "건립연도:2010년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.003774, 37.567385]}},
+{"type": "Feature", "properties": {"name": "윤석중_흉상", "year": "2024", "refurl": "http://www.isaessak.co.kr/main/index.php?page=board&act=view&id=notice&no=15644", "category": "건립연도:2020년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.079885, 37.54988]}},
+{"type": "Feature", "properties": {"name": "은평_평화의_소녀상", "year": "2018", "refurl": "https://www.epnews.net/news/articleView.html?idxno=15227, https://dreamazit.or.kr/sub02/sub02.php?ptype=view&idx=18318&page=1&code=newboard02", "category": "건립연도:2010년대", "gender": "female"}, "geometry": {"type": "Point", "coordinates": [126.923079, 37.605679]}},
+{"type": "Feature", "properties": {"name": "을지문덕_장군상", "year": "1969", "refurl": "https://news.seoul.go.kr/culture/archives/76560", "category": "건립연도:1960년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.088471, 37.551574]}},
+{"type": "Feature", "properties": {"name": "인어공주동상", "year": "2016", "refurl": "https://m.blog.naver.com/oisuloi/221937715021;https://www.kmib.co.kr/article/view.asp?arcid=0011003425", "category": "건립연도:2010년대", "gender": "female"}, "geometry": {"type": "Point", "coordinates": [126.930563, 37.531008]}},
+{"type": "Feature", "properties": {"name": "인어상", "year": "2002", "refurl": "https://atemoya.tistory.com/112", "category": "건립연도:2000년대", "gender": "female"}, "geometry": {"type": "Point", "coordinates": [127.100849, 37.551261]}},
+{"type": "Feature", "properties": {"name": "인촌_김성수_선생상", "year": "1991", "refurl": "http://www.inchonmemorial.co.kr/html/inchon/m_memory03.html", "category": "건립연도:1990년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.0145, 37.429]}},
+{"type": "Feature", "properties": {"name": "일성_이준열사_동상", "year": "1964", "refurl": " https://encykorea.aks.ac.kr/Article/E0045985,  https://encykorea.aks.ac.kr/Article/E0048845", "category": "건립연도:1960년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.00397, 37.558165]}},
+{"type": "Feature", "properties": {"name": "자하_신위_선생상 ", "year": "1998", "refurl": "https://www.donga.com/news/Society/article/all/19980515/7345510/1", "category": "건립연도:1990년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.957, 37.4685]}},
+{"type": "Feature", "properties": {"name": "전봉준_장군의_시선", "year": "2018", "refurl": "https://1894.or.kr/main/?menu=95&loc=1&limit=20&mode=view&no=318", "category": "건립연도:2010년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.98259, 37.569831]}},
+{"type": "Feature", "properties": {"name": "접어_만든_사자와_아이", "year": "2022", "refurl": "https://mediahub.seoul.go.kr/archives/2006534", "category": "건립연도:2020년대", "gender": "none"}, "geometry": {"type": "Point", "coordinates": [127.010478, 37.434058]}},
+{"type": "Feature", "properties": {"name": "조명하_의사지상", "year": "1988", "refurl": "https://blog.naver.com/hukim07/221765535216", "category": "건립연도:1980년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.01703, 37.427504]}},
+{"type": "Feature", "properties": {"name": "존비콜터_장군상", "year": "1977", "refurl": "https://terms.naver.com/entry.naver?docId=3335814&cid=42856&categoryId=42856", "category": "건립연도:1970년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.087969, 37.551979]}},
+{"type": "Feature", "properties": {"name": "충무공_이순신_동상", "year": "1968", "refurl": "https://terms.naver.com/entry.naver?docId=1999789&cid=42856&categoryId=42856", "category": "건립연도:1960년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.97694, 37.571012]}},
+{"type": "Feature", "properties": {"name": "퇴계이황선생상", "year": "1970", "refurl": "https://news.seoul.go.kr/culture/archives/76295, ", "category": "건립연도:1970년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.981898, 37.552413]}},
+{"type": "Feature", "properties": {"name": "한글역사인물_상징_조형물", "year": "2013", "refurl": "https://www.newspago.com/sub_read.html?u_ip=34.64.82.68&uid=16111", "category": "건립연도:2010년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.973506, 37.572213]}},
+{"type": "Feature", "properties": {"name": "한유성_기념비", "year": "1999", "refurl": "https://news.seoul.go.kr/culture/archives/76739", "category": "건립연도:1990년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.1065, 37.5141]}},
+{"type": "Feature", "properties": {"name": "해공_신익희_선생_동상", "year": "2001", "refurl": "https://www.gangdong.go.kr/web/culture/contents/gdc020_050_030 https://blog.naver.com/hukim07/221458917851?photoView=6  <-(제작자명을 명확히 찾을 수 없어, 위 링크의 사진을 보고 유추하여 제작자명을 기입하였습니다)", "category": "건립연도:2000년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [127.132386, 37.536291]}},
+{"type": "Feature", "properties": {"name": "구로_평화의_소녀상", "year": "2016", "refurl": "https://blog.naver.com/roaltlf/221534305560;https://www.tongilnews.com/news/articleView.html?idxno=117795", "category": "건립연도:2010년대", "gender": "female"}, "geometry": {"type": "Point", "coordinates": [126.880659, 37.503004]}},
+{"type": "Feature", "properties": {"name": "손기정동상", "year": "2016", "refurl": "https://blog.naver.com/mirae_saram/222063854282;https://blog.naver.com/mpvalove/223517124779", "category": "건립연도:2010년대", "gender": "male"}, "geometry": {"type": "Point", "coordinates": [126.964869, 37.556208]}}
+            ];
+
+            L.geoJson(geodata, {
+                onEachFeature: function (feature, layer) {
+                            layer.bindPopup('<a href="' + feature.properties.refurl + '" target="_blank"><center><big><b>' +" " + feature.properties.name + '</b></big></a><br/>' + feature.properties.year)},
+            
+                pointToLayer: function(feature, latlng) {
+                    switch (feature.properties.category) {
+                        case '건립연도:1960년대': return L.marker(latlng, {icon: statueIcon}).addTo(part_1);
+                        case '건립연도:1970년대': return L.marker(latlng, {icon: statueIcon}).addTo(part_2);
+                        case '건립연도:1980년대': return L.marker(latlng, {icon: statueIcon}).addTo(part_3);
+                        case '건립연도:1990년대': return L.marker(latlng, {icon: statueIcon}).addTo(part_4);
+                        case '건립연도:2000년대': return L.marker(latlng, {icon: statueIcon}).addTo(part_5);
+                        case '건립연도:2010년대': return L.marker(latlng, {icon: statueIcon}).addTo(part_6);
+                        case '건립연도:2020년대': return L.marker(latlng, {icon: statueIcon}).addTo(part_7); 
+                    }
+                }
+            });
+
+
+        </script>
+    </body>
+</html>
